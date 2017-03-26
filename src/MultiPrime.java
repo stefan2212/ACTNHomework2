@@ -37,4 +37,23 @@ public class MultiPrime {
         return cipher.modPow(d, n);
     }
 
+    public BigInteger doDecryptCRT(BigInteger cipher){
+        BigInteger pMinus1 = p.subtract(new BigInteger("1"));
+        BigInteger qMinus1 = q.subtract(new BigInteger("1"));
+        BigInteger rMinus1 = r.subtract(new BigInteger("1"));
+        BigInteger dP=d.mod(pMinus1);
+        BigInteger dQ=d.mod(qMinus1);
+        BigInteger dR=d.mod(rMinus1);
+        BigInteger m1=cipher.modPow(dP,p);
+        BigInteger m2=cipher.modPow(dQ,q);
+        BigInteger m3=cipher.modPow(dR,r);
+        BigInteger rInv=r.modInverse(q);
+        BigInteger h=rInv.multiply((m2.subtract(m3))).mod(q);
+        m2=m2.add(h.multiply(q));
+        BigInteger qInv=q.modInverse(p);
+        h=qInv.multiply((m1.subtract(m2))).mod(p);
+        BigInteger m=m2.add(h.multiply(q));
+        return m;
+    }
+
 }
