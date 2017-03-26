@@ -1,11 +1,15 @@
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+
 public class Main {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
 	    Input input=new Input("input.txt");
-	    String text=input.readText();
+	    BigInteger text=new BigInteger(input.readText());
 	    MultiPrime enc=new MultiPrime();
-	    enc.doEncryption();
+	    BigInteger cipher=enc.doEncryption(text);
+	    BigInteger plainText=enc.doDecryption(cipher);
+	    System.out.println(plainText);
 
     }
 }
